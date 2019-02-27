@@ -1,0 +1,123 @@
+---
+  swagger: "2.0"
+  info: 
+    version: "0.0.1"
+    title: "STRB addressbook Api"
+  host: "localhost:3010"
+  basePath: "/api"
+  schemes: 
+    - "http"
+  tags: 
+    - 
+      name: "users"
+      description: "Users operations"
+    - 
+      name: "contacts"
+      description: "Contacts operations"
+  consumes: 
+    - "application/json"
+  produces: 
+    - "application/json"
+  paths: 
+    /users/signup: 
+      x-swagger-router-controller: "features/users/controllers/users"
+      post: 
+        description: "Register a user to manage cantacts"
+        summary: "Register a user to manage cantacts"
+        consumes: 
+          - "application/json"
+        operationId: "registerUser"
+        tags: 
+          - "users"
+        parameters: 
+          - 
+            name: "user"
+            in: "body"
+            description: "User to be registered"
+            required: true
+            schema: 
+              $ref: "#/definitions/UserPost"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/UserResponse"
+          400: 
+            description: "Bad request"
+            schema: 
+              $ref: "#/definitions/ErrorResponse"
+    /users/login: 
+      x-swagger-router-controller: "features/users/controllers/users"
+      post: 
+        operationId: "loginUser"
+        tags: 
+          - "users"
+        description: "Get the token of the logged in user"
+        parameters: 
+          - 
+            name: "user"
+            in: "body"
+            description: "User to be logged in"
+            required: true
+            schema: 
+              $ref: "#/definitions/UserPost"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              $ref: "#/definitions/UserResponse"
+          400: 
+            description: "Bad request"
+            schema: 
+              $ref: "#/definitions/ErrorResponse"
+          401: 
+            description: "Unauthorized"
+            schema: 
+              $ref: "#/definitions/ErrorResponse"
+          404: 
+            description: "Item not found"
+            schema: 
+              $ref: "#/definitions/ErrorResponse"
+    /swagger: 
+      x-swagger-pipe: "swagger_raw"
+  definitions: 
+    Error: 
+      properties: 
+        message: 
+          type: "string"
+    ErrorResponse: 
+      properties: 
+        error: 
+          $ref: "#/definitions/Error"
+    User: 
+      properties: 
+        _id: 
+          type: "string"
+        email: 
+          type: "string"
+        password: 
+          type: "string"
+        name: 
+          type: "string"
+    UserPost: 
+      required: 
+        - "email"
+        - "password"
+      properties: 
+        email: 
+          type: "string"
+        password: 
+          type: "string"
+        name: 
+          type: "string"
+    UserResponse: 
+      required: 
+        - "data"
+      properties: 
+        data: 
+          $ref: "#/definitions/User"
+  securityDefinitions: 
+    jwtAuth: 
+      type: "apiKey"
+      name: "Authorization"
+      in: "header"

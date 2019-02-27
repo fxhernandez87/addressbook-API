@@ -1,0 +1,36 @@
+{
+  "env": {
+    "node": true,
+    "es6": true,
+    "mocha": true
+  },
+  "plugins": [
+    "prettier"
+  ],
+  "extends": "eslint:recommended",
+  "rules": {
+    "prettier/prettier": ["error", {
+      "singleQuote": true,
+      "trailingComma": "none",
+      "bracketSpacing": false,
+      "parser": "flow",
+      "tabWidth": 2,
+      "printWidth": 120
+    }],
+    "no-await-in-loop": "error",
+    "no-return-await": "error",
+    "eqeqeq": ["error", "smart"],
+    "block-scoped-var": "error",
+    "camelcase": "error",
+    "max-depth": ["error", 4],
+    "max-len": ["error", 120],
+    "new-cap": "error",
+    "no-extend-native": "error"
+  },
+  "parserOptions": {
+    "ecmaVersion": 8,
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
+    }
+  }
+}
