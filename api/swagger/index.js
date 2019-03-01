@@ -11,7 +11,7 @@ module.exports = {
   host:
     process.env.NODE_ENV === 'production'
       ? 'xxxx'
-      : `localhost:${process.env.API_PORT}`,
+      : `localhost:${process.env.PORT}`,
   basePath: '/api',
   schemes: [['production', 'test'].includes(process.env.NODE_ENV) ? 'https' : 'http'],
   tags: [

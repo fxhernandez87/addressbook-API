@@ -36,12 +36,25 @@
             description: "User to be registered"
             required: true
             schema: 
-              $ref: "#/definitions/UserPost"
+              required: 
+                - "email"
+                - "password"
+              properties: 
+                email: 
+                  type: "string"
+                password: 
+                  type: "string"
+                name: 
+                  type: "string"
         responses: 
           200: 
             description: "Success"
             schema: 
-              $ref: "#/definitions/UserResponse"
+              required: 
+                - "data"
+              properties: 
+                data: 
+                  $ref: "#/definitions/User"
           400: 
             description: "Bad request"
             schema: 
@@ -60,12 +73,25 @@
             description: "User to be logged in"
             required: true
             schema: 
-              $ref: "#/definitions/UserPost"
+              required: 
+                - "email"
+                - "password"
+              properties: 
+                email: 
+                  type: "string"
+                password: 
+                  type: "string"
+                name: 
+                  type: "string"
         responses: 
           200: 
             description: "Success"
             schema: 
-              $ref: "#/definitions/UserResponse"
+              required: 
+                - "data"
+              properties: 
+                data: 
+                  $ref: "#/definitions/User"
           400: 
             description: "Bad request"
             schema: 
@@ -99,23 +125,6 @@
           type: "string"
         name: 
           type: "string"
-    UserPost: 
-      required: 
-        - "email"
-        - "password"
-      properties: 
-        email: 
-          type: "string"
-        password: 
-          type: "string"
-        name: 
-          type: "string"
-    UserResponse: 
-      required: 
-        - "data"
-      properties: 
-        data: 
-          $ref: "#/definitions/User"
   securityDefinitions: 
     jwtAuth: 
       type: "apiKey"

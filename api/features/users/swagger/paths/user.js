@@ -1,5 +1,6 @@
 const { responseMaker } = require('../../../../helpers/swagger');
 const swaggerController = {'x-swagger-router-controller': 'features/users/controllers/users'};
+const {hidden: {UserPost, UserResponse}} = require('../definitions/user');
 
 module.exports = {
   '/users/signup': {
@@ -17,12 +18,12 @@ module.exports = {
           description: 'User to be registered',
           required: true,
           schema: {
-            $ref: '#/definitions/UserPost'
+            ...UserPost
           }
         }
       ],
       responses: {
-        ...responseMaker(200, '#/definitions/UserResponse'),
+        ...responseMaker(200, undefined, {...UserResponse}),
         ...responseMaker(400)
       }
     }
@@ -40,12 +41,12 @@ module.exports = {
           description: 'User to be logged in',
           required: true,
           schema: {
-            $ref: '#/definitions/UserPost'
+            ...UserPost
           }
         }
       ],
       responses: {
-        ...responseMaker(200, '#/definitions/UserResponse'),
+        ...responseMaker(200, undefined, {...UserResponse}),
         ...responseMaker(400),
         ...responseMaker(401),
         ...responseMaker(404)

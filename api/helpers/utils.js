@@ -73,7 +73,7 @@ const jwtDecode = (req, res, next) => {
  * @param func
  * @returns void
  */
-const responser = func => async (req, res, next) => {
+const responder = func => async (req, res, next) => {
   try {
     res.json(await func(req, res, next));
   } catch (err) {
@@ -109,5 +109,5 @@ module.exports = {
   mapResponse,
   middleware,
   rejectResolver,
-  responser
+  responder
 };

@@ -14,14 +14,14 @@ const responseDefaultRefs = {
   '404': '#/definitions/ErrorResponse',
   '422': '#/definitions/ErrorResponse'
 };
-const responseMaker = (_code, ref) => {
+const responseMaker = (_code, ref, obj) => {
   const code = _code.toString();
   const description = responseDescriptions[code] || 'Description not found';
   const $ref = ref || responseDefaultRefs[_code];
   return {
     [code]: {
       description,
-      schema: {$ref}
+      schema: obj || {$ref}
     }
   };
 };

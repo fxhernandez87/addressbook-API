@@ -26,14 +26,8 @@ const config = {
   appRoot: __dirname,
   swaggerSecurityHandlers: {
     jwtAuth(req, useless, apiKey, cb) {
-
       // TODO do handlers
-      if (apiKey === process.env.LEGACY_API_KEY) {
-        req.extra = {notCheckOrganization: true};
-        cb();
-      } else {
-        cb(new Error('Unauthorized access'));
-      }
+      cb();
     }
   }
 };
@@ -44,8 +38,6 @@ const init = async () => {
     if (err) {
       throw err;
     }
-    let env = process.env;
-
     const whitelist = [
       `http://localhost:${process.env.API_PORT}`,
       /https:\/\/.*\.heroku\.ci$/
@@ -53,7 +45,7 @@ const init = async () => {
     const corsOptions = {
       origin: whitelist,
       credentials: true,
-      exposedHeaders: 'Origin, X-Requested-With, Content-Type, Accept',
+      exposedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
       allowedHeaders: ['Content-Type', 'Authorization']
     };
 

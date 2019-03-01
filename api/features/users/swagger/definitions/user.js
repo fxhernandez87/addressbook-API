@@ -27,7 +27,11 @@ const UserResponse = {
 };
 
 module.exports = {
-  User,
-  UserPost,
-  UserResponse,
+  shown: {
+    User,
+  },
+  hidden: {
+    UserPost,
+    UserResponse,
+  }
 };
