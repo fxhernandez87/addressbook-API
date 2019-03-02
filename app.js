@@ -5,6 +5,9 @@
 require('dotenv').config();
 const cors = require('cors');
 const mongoose = require('mongoose');
+const fireBase = require('firebase');
+const admin = require('firebase-admin');
+const serviceAccount = require(`./${process.env.SA_KEYFILE_NAME}`);
 mongoose.Promise = global.Promise;
 mongoose.set('debug', true);
 const ObjectId = mongoose.Types.ObjectId;
@@ -25,10 +28,7 @@ const {middleware} = require('./api/helpers/utils');
 const config = {
   appRoot: __dirname,
   swaggerSecurityHandlers: {
-    jwtAuth(req, useless, apiKey, cb) {
-      // TODO do handlers
-      cb();
-    }
+    jwtAuth: middleware.jwtVerify
   }
 };
 
@@ -38,10 +38,7 @@ const init = async () => {
     if (err) {
       throw err;
     }
-    const whitelist = [
-      `http://localhost:${process.env.API_PORT}`,
-      /https:\/\/.*\.heroku\.ci$/
-    ];
+    const whitelist = [`http://localhost:${process.env.API_PORT}`, /https:\/\/.*\.heroku\.ci$/];
     const corsOptions = {
       origin: whitelist,
       credentials: true,
@@ -51,6 +48,7 @@ const init = async () => {
 
     app.use(cors(corsOptions));
     app.use(middleware.error);
+    app.use(middleware.jwtDecode);
     app.use(
       new SwaggerUI(swaggerExpress.runner.swagger, {
         apiDocs: '/api/api-docs',
@@ -66,7 +64,14 @@ const init = async () => {
       useNewUrlParser: true,
       useCreateIndex: true
     });
+    fireBase.initializeApp({
+      credential: admin.credential.cert(serviceAccount),
+      apiKey: process.env.FIREBASE_APIKEY,
+      authDomain: 'strv-addressbook-hernandez-fra.firebaseapp.com',
+      databaseURL: 'https://strv-addressbook-hernandez-fra.firebaseio.com'
+    });
     app.listen(process.env.PORT || 3000, () => {
+      // eslint-disable-next-line no-console
       console.log(`App listening on port ${process.env.PORT || 3000}`);
     });
   });

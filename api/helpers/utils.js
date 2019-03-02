@@ -1,5 +1,7 @@
 require('dotenv').config();
 const Boom = require('boom');
+const fs = require('fs');
+const cert = fs.readFileSync('public.pem');
 const jwt = require('jsonwebtoken');
 
 /**
@@ -57,14 +59,39 @@ const jwtDecode = (req, res, next) => {
   if (req.header('Authorization')) {
     const token = req.header('Authorization').split(' ');
     if (token[0] === 'Bearer' && token[1]) {
-      const decoded = jwt.decode(token[1])['http://quadminds/metadata'];
-      req.user = decoded;
-      req.user._id = decoded.user_id;
-      req.organization = decoded;
-      req.organization._id = decoded.organization_id;
+      const decoded = jwt.decode(token[1]);
+      req.user = decoded.payload;
+      req.token = token[1];
     }
   }
   next();
+};
+/**
+ * A security handler that will verify if a token is valid
+ * @param req
+ * @param _
+ * @param apiKey
+ * @param next
+ */
+const jwtVerify = (req, _, apiKey, next) => {
+  if (req.header('Authorization')) {
+    const token = req.header('Authorization').split(' ');
+    if (token[0] === 'Bearer' && token[1]) {
+      try {
+        jwt.verify(token[1], cert, {algorithms: ['RS256']});
+        next();
+      } catch (err) {
+        // we don't send much information about the error
+        next(err);
+      }
+    } else {
+      // we don't send much information about the error
+      next(new Error('Unauthorized Access'));
+    }
+  } else {
+    // we don't send much information about the error
+    next(new Error('Unauthorized Access'));
+  }
 };
 
 /**
@@ -100,7 +127,8 @@ const rejectResolver = (check, rejection) => async response => {
  */
 const middleware = {
   error,
-  jwtDecode
+  jwtDecode,
+  jwtVerify
 };
 
 module.exports = {

@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt');
 const boom = require('boom');
+const jwt = require('jsonwebtoken');
+const serviceAccount = require('../../../../service-account-a779bfd.json');
 const {responder, mapResponse} = require('../../../helpers/utils');
 const userService = require('../services/user');
 const saltFactor = 10;
@@ -11,9 +13,10 @@ const saltFactor = 10;
  *  - email must be valid email format
  *  - password length should be greater equal 8
  * @param req - express request
+ * @param res - express response
  * @returns {Promise<data|meta|*>}
  */
-const registerUser = async req => {
+const registerUser = async (req, res) => {
   const {user: {value: user}} = req.swagger.params;
   const {email, password, name} = user;
   const userData = await userService.getByEmail(email);
@@ -36,7 +39,20 @@ const registerUser = async req => {
     // remove the hashed password from the response object
     delete newUser.password;
 
-    // TODO create JWT token and send it to the response headers
+    // create the token with the user data, and set expiration date in an hour
+    const token = await jwt.sign(
+      {
+        payload: newUser,
+        uid: newUser._id,
+        aud: 'https://identitytoolkit.googleapis.com/google.identity.identitytoolkit.v1.IdentityToolkit',
+        iss: serviceAccount.client_email,
+        sub: serviceAccount.client_email
+      },
+      serviceAccount.private_key,
+      {expiresIn: '1h', algorithm: 'RS256'}
+    );
+    // set the header in response
+    res.header('Authorization', `Bearer ${token}`);
     return mapResponse('newUser', {newUser});
   } catch (err) {
     // Mongoose model errors
@@ -44,12 +60,12 @@ const registerUser = async req => {
       throw new Error(err);
     } else {
       // something went wrong when hashing the password
-      throw new Error('Unexpected error hashing password')
+      throw new Error('Unexpected error hashing password');
     }
   }
 };
 
-const loginUser = async req => {
+const loginUser = async (req, res) => {
   const {user: {value: user}} = req.swagger.params;
   const {email, password} = user;
   const userData = await userService.getByEmail(email);
@@ -66,7 +82,20 @@ const loginUser = async req => {
   }
 
   delete userData.password;
-  // TODO create JWT token and send it to the response headers
+  // create the token with the user data, and set expiration date in an hour
+  const token = await jwt.sign(
+    {
+      payload: userData,
+      uid: userData._id,
+      aud: 'https://identitytoolkit.googleapis.com/google.identity.identitytoolkit.v1.IdentityToolkit',
+      iss: serviceAccount.client_email,
+      sub: serviceAccount.client_email
+    },
+    serviceAccount.private_key,
+    {expiresIn: '1h', algorithm: 'RS256'}
+  );
+  // set the header in response
+  res.header('Authorization', `Bearer ${token}`);
   return mapResponse('userData', {userData});
 };
 
