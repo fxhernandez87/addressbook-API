@@ -104,6 +104,58 @@
             description: "Item not found"
             schema: 
               $ref: "#/definitions/ErrorResponse"
+    /users/contacts: 
+      x-swagger-router-controller: "features/users/controllers/contacts"
+      post: 
+        security: 
+          - 
+            jwtAuth: []
+        description: "add a new contact"
+        summary: "add a new contact for the logged in user"
+        consumes: 
+          - "application/json"
+        operationId: "addContact"
+        tags: 
+          - "contacts"
+        parameters: 
+          - 
+            name: "contact"
+            in: "body"
+            description: "Contact to be added"
+            required: true
+            schema: 
+              required: 
+                - "email"
+                - "surName"
+                - "name"
+              properties: 
+                email: 
+                  type: "string"
+                surName: 
+                  type: "string"
+                name: 
+                  type: "string"
+        responses: 
+          200: 
+            description: "Success"
+            schema: 
+              required: 
+                - "data"
+              properties: 
+                data: 
+                  $ref: "#/definitions/Contact"
+          400: 
+            description: "Bad request"
+            schema: 
+              $ref: "#/definitions/ErrorResponse"
+          401: 
+            description: "Unauthorized"
+            schema: 
+              $ref: "#/definitions/ErrorResponse"
+          403: 
+            description: "Forbidden"
+            schema: 
+              $ref: "#/definitions/ErrorResponse"
     /swagger: 
       x-swagger-pipe: "swagger_raw"
   definitions: 
@@ -122,6 +174,16 @@
         email: 
           type: "string"
         password: 
+          type: "string"
+        name: 
+          type: "string"
+    Contact: 
+      properties: 
+        _id: 
+          type: "string"
+        email: 
+          type: "string"
+        surName: 
           type: "string"
         name: 
           type: "string"

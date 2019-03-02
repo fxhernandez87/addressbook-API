@@ -1,5 +1,4 @@
 const users = require('../features/users/swagger');
-//const contacts = require('../features/contacts/swagger');
 
 // This will be used to generate the swagger.yaml at startup
 module.exports = {
@@ -8,10 +7,7 @@ module.exports = {
     version: '0.0.1',
     title: 'STRB addressbook Api'
   },
-  host:
-    process.env.NODE_ENV === 'production'
-      ? 'xxxx'
-      : `localhost:${process.env.PORT}`,
+  host: process.env.NODE_ENV === 'production' ? 'xxxx' : `localhost:${process.env.PORT}`,
   basePath: '/api',
   schemes: [['production', 'test'].includes(process.env.NODE_ENV) ? 'https' : 'http'],
   tags: [
@@ -39,7 +35,7 @@ module.exports = {
     ErrorResponse: {
       properties: {error: {$ref: '#/definitions/Error'}}
     },
-    ...users.definitions,
+    ...users.definitions
   },
   securityDefinitions: {
     jwtAuth: {
