@@ -1,0 +1,36 @@
+{
+  "addons": [
+
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ],
+  "env": {
+    "API_PORT": {
+      "required": true
+    },
+    "ENV": {
+      "required": true
+    },
+    "MONGODB_URI": {
+      "required": true
+    },
+    "FIREBASE_APIKEY": {
+      "required": true
+    },
+    "JWT_SCRET": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "name": "pipeline-heroku",
+  "scripts": {
+  },
+  "stack": "heroku-18"
+}
