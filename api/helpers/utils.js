@@ -1,7 +1,5 @@
 require('dotenv').config();
 const Boom = require('boom');
-const fs = require('fs');
-const cert = fs.readFileSync('public.pem');
 const jwt = require('jsonwebtoken');
 
 /**
@@ -78,7 +76,7 @@ const jwtVerify = (req, _, apiKey, next) => {
     const token = req.header('Authorization').split(' ');
     if (token[0] === 'Bearer' && token[1]) {
       try {
-        jwt.verify(token[1], cert, {algorithms: ['RS256']});
+        jwt.verify(token[1], process.env.JWT_SECRET);
         next();
       } catch (err) {
         // we don't send much information about the error

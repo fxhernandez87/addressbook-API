@@ -6,8 +6,6 @@ require('dotenv').config();
 const cors = require('cors');
 const mongoose = require('mongoose');
 const fireBase = require('firebase');
-const admin = require('firebase-admin');
-const serviceAccount = require(`./${process.env.SA_KEYFILE_NAME}`);
 mongoose.Promise = global.Promise;
 mongoose.set('debug', true);
 const ObjectId = mongoose.Types.ObjectId;
@@ -65,7 +63,6 @@ const init = async () => {
       useCreateIndex: true
     });
     fireBase.initializeApp({
-      credential: admin.credential.cert(serviceAccount),
       apiKey: process.env.FIREBASE_APIKEY,
       authDomain: 'strv-addressbook-hernandez-fra.firebaseapp.com',
       databaseURL: 'https://strv-addressbook-hernandez-fra.firebaseio.com'
