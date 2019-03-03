@@ -19,7 +19,6 @@
     "dotenv": "^4.0.0",
     "express": "^4.12.3",
     "firebase": "^5.8.5",
-    "firebase-admin": "^7.0.0",
     "glob": "^7.1.1",
     "json2yaml": "^1.1.0",
     "jsonwebtoken": "^7.4.3",

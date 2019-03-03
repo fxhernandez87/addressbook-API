@@ -1,7 +1,6 @@
 const bcrypt = require('bcrypt');
 const boom = require('boom');
 const jwt = require('jsonwebtoken');
-const serviceAccount = require('../../../../service-account-a779bfd.json');
 const {responder, mapResponse} = require('../../../helpers/utils');
 const userService = require('../services/user');
 const saltFactor = 10;
@@ -43,13 +42,10 @@ const registerUser = async (req, res) => {
     const token = await jwt.sign(
       {
         payload: newUser,
-        uid: newUser._id,
-        aud: 'https://identitytoolkit.googleapis.com/google.identity.identitytoolkit.v1.IdentityToolkit',
-        iss: serviceAccount.client_email,
-        sub: serviceAccount.client_email
+        uid: newUser._id
       },
-      serviceAccount.private_key,
-      {expiresIn: '1h', algorithm: 'RS256'}
+      process.env.JWT_SECRET,
+      {expiresIn: '1h'}
     );
     // set the header in response
     res.header('Authorization', `Bearer ${token}`);
@@ -86,13 +82,10 @@ const loginUser = async (req, res) => {
   const token = await jwt.sign(
     {
       payload: userData,
-      uid: userData._id,
-      aud: 'https://identitytoolkit.googleapis.com/google.identity.identitytoolkit.v1.IdentityToolkit',
-      iss: serviceAccount.client_email,
-      sub: serviceAccount.client_email
+      uid: userData._id
     },
-    serviceAccount.private_key,
-    {expiresIn: '1h', algorithm: 'RS256'}
+    process.env.JWT_SECRET,
+    {expiresIn: '1h'}
   );
   // set the header in response
   res.header('Authorization', `Bearer ${token}`);
