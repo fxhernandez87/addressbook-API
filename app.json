@@ -20,7 +20,7 @@
     "FIREBASE_APIKEY": {
       "required": true
     },
-    "JWT_SCRET": {
+    "JWT_SECRET": {
       "required": true
     }
   },
