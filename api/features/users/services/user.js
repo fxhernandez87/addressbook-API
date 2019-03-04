@@ -7,12 +7,8 @@ class UserService {
   }
 
   static async getByEmail(email) {
-    const user  = await User.findOne({ email });
-    return user ? user.toJSON(): null;
-  }
-
-  static async getById(id) {
-    return User.findById(id);
+    const user = await User.findOne({email});
+    return user ? user.toJSON() : null;
   }
 }
 module.exports = UserService;

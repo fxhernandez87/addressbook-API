@@ -29,17 +29,20 @@
   },
   "devDependencies": {
     "acorn": "^6.1.1",
+    "chai": "^4.2.0",
     "eslint": "^5.9.0",
     "eslint-plugin-prettier": "^2.1.2",
     "expect": "^1.20.2",
     "faker": "^4.1.0",
+    "mocha": "^6.0.2",
+    "nyc": "^13.3.0",
     "prettier": "^1.5.3",
+    "sinon": "^7.2.6",
+    "supertest": "^3.4.2",
     "yargs": "^8.0.2"
   },
   "scripts": {
     "start": "node app.js",
-    "start-watch": "swagger project start",
-    "test": "swagger project test",
-    "test-watch": "nodemon --exec \"npm test\""
+    "test": "nyc --reporter=html mocha __tests__/**/*.js --exit"
   }
 }

@@ -11,13 +11,6 @@ const jwt = require('jsonwebtoken');
 const randomInt = (min, max) => Math.floor(Math.random() * (max - min)) + min;
 
 /**
- * Makes a deep copy of an object, to lose all reference from the copied one
- * @param source
- * @returns copied object
- */
-const deepCopy = source => JSON.parse(JSON.stringify(source));
-
-/**
  * format the result data in a specific way
  * @param dataKey - the property that will stay as data, the rest will pass to a meta object
  * @param results - object to transform
@@ -42,7 +35,14 @@ const error = (req, res, next) => {
     if (!err.isBoom) {
       err = Boom.badRequest(err);
     }
-    res.status(err.output.statusCode).json(err.output.payload);
+    const payload =
+      err.output.statusCode === 500
+        ? {
+            ...err.output.payload,
+            message: err.message
+          }
+        : err.output.payload;
+    res.status(err.output.statusCode).json(payload);
   };
   next();
 };
@@ -107,19 +107,6 @@ const responder = func => async (req, res, next) => {
 };
 
 /**
- * Given a check function and a response, if the check function fails, it will throw an exception
- * @param check - check function
- * @param rejection - rejection object or message
- * @returns response if there is no error or rejection instead
- */
-const rejectResolver = (check, rejection) => async response => {
-  if (check(await response)) {
-    return Promise.reject(rejection);
-  }
-  return response;
-};
-
-/**
  * object containing the different middleware in utils
  * @type {{error: error, jwtDecode: jwtDecode}}
  */
@@ -131,9 +118,7 @@ const middleware = {
 
 module.exports = {
   randomInt,
-  deepCopy,
   mapResponse,
   middleware,
-  rejectResolver,
   responder
 };
