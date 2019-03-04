@@ -1,4 +1,3 @@
-const os = require('os');
 const users = require('../features/users/swagger');
 
 // This will be used to generate the swagger.yaml at startup
@@ -9,7 +8,7 @@ module.exports = {
     title: 'STRV Addressbook Api'
   },
   host: ['production', 'staging', 'testing'].includes(process.env.ENV)
-    ? os.hostname()
+    ? `${process.env.HEROKU_APP_NAME}.herokuapp.com`
     : `localhost:${process.env.PORT}`,
   basePath: '/api',
   schemes: [['production', 'test'].includes(process.env.NODE_ENV) ? 'https' : 'http'],
