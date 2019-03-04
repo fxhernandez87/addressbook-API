@@ -31,13 +31,13 @@
   },
   "name": "pipeline-heroku",
   "scripts": {
-    "test": "mocha --recursive"
+    "test": "mocha --recursive --exit"
   },
   "stack": "heroku-18",
   "environments": {
     "test": {
       "scripts": {
-        "test": "mocha --recursive"
+        "test": "mocha --recursive --exit"
       },
       "formation": {
         "test": {
