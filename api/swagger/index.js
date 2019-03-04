@@ -4,7 +4,7 @@ const users = require('../features/users/swagger');
 module.exports = {
   swagger: '2.0',
   info: {
-    version: '0.0.2',
+    version: '0.0.3',
     title: 'STRB addressbook Api'
   },
   host: process.env.NODE_ENV === 'production' ? 'xxxx' : `localhost:${process.env.PORT}`,
