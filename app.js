@@ -1,15 +1,12 @@
 /*
-* strv-addressbook-api v0.0.2
+* strv-addressbook-api v0.0.3
 * By Francisco Hernández
 * */
 require('dotenv').config();
 const cors = require('cors');
 const mongoose = require('mongoose');
 const fireBase = require('firebase');
-const admin = require('firebase-admin');
-const serviceAccount = require(`./${process.env.SA_KEYFILE_NAME}`);
 mongoose.Promise = global.Promise;
-mongoose.set('debug', true);
 const ObjectId = mongoose.Types.ObjectId;
 ObjectId.prototype.valueOf = function() {
   return this.toString();
@@ -64,12 +61,14 @@ const init = async () => {
       useNewUrlParser: true,
       useCreateIndex: true
     });
-    fireBase.initializeApp({
-      credential: admin.credential.cert(serviceAccount),
-      apiKey: process.env.FIREBASE_APIKEY,
-      authDomain: 'strv-addressbook-hernandez-fra.firebaseapp.com',
-      databaseURL: 'https://strv-addressbook-hernandez-fra.firebaseio.com'
-    });
+    if (!fireBase.apps.length) {
+      fireBase.initializeApp({
+        apiKey: process.env.FIREBASE_APIKEY,
+        projectId: 'strv-addressbook-hernandez-fra',
+        authDomain: 'strv-addressbook-hernandez-fra.firebaseapp.com',
+        databaseURL: 'https://strv-addressbook-hernandez-fra.firebaseio.com'
+      });
+    }
     app.listen(process.env.PORT || 3000, () => {
       // eslint-disable-next-line no-console
       console.log(`App listening on port ${process.env.PORT || 3000}`);

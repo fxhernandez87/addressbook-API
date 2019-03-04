@@ -8,7 +8,7 @@
     }
   ],
   "env": {
-    "API_PORT": {
+    "PORT": {
       "required": true
     },
     "ENV": {
@@ -20,7 +20,7 @@
     "FIREBASE_APIKEY": {
       "required": true
     },
-    "JWT_SCRET": {
+    "JWT_SECRET": {
       "required": true
     }
   },
@@ -31,6 +31,7 @@
   },
   "name": "pipeline-heroku",
   "scripts": {
+    "test": "mocha __tests__/**/*.js"
   },
   "stack": "heroku-18"
 }

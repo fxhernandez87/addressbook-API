@@ -1,6 +1,6 @@
 {
   "name": "strv-addressbook-hernandez-francisco",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": true,
   "description": "STRV Addressbook assignment",
   "keywords": [
@@ -19,7 +19,6 @@
     "dotenv": "^4.0.0",
     "express": "^4.12.3",
     "firebase": "^5.8.5",
-    "firebase-admin": "^7.0.0",
     "glob": "^7.1.1",
     "json2yaml": "^1.1.0",
     "jsonwebtoken": "^7.4.3",
@@ -30,17 +29,20 @@
   },
   "devDependencies": {
     "acorn": "^6.1.1",
+    "chai": "^4.2.0",
     "eslint": "^5.9.0",
     "eslint-plugin-prettier": "^2.1.2",
     "expect": "^1.20.2",
     "faker": "^4.1.0",
+    "mocha": "^6.0.2",
+    "nyc": "^13.3.0",
     "prettier": "^1.5.3",
+    "sinon": "^7.2.6",
+    "supertest": "^3.4.2",
     "yargs": "^8.0.2"
   },
   "scripts": {
     "start": "node app.js",
-    "start-watch": "swagger project start",
-    "test": "swagger project test",
-    "test-watch": "nodemon --exec \"npm test\""
+    "test": "mocha __tests__/**/*.js"
   }
 }
