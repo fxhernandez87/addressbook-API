@@ -3,7 +3,7 @@
   info: 
     version: "0.0.3"
     title: "STRV Addressbook Api"
-  host: "localhost:3010"
+  host: "PANCHO"
   basePath: "/api"
   schemes: 
     - "http"
