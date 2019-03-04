@@ -4,10 +4,12 @@ const users = require('../features/users/swagger');
 module.exports = {
   swagger: '2.0',
   info: {
-    version: '0.0.3',
+    version: '0.0.4',
     title: 'STRV Addressbook Api'
   },
-  host: process.env.NODE_ENV === 'production' ? 'xxxx' : `localhost:${process.env.PORT}`,
+  host: ['production', 'staging', 'testing'].includes(process.env.ENV)
+    ? `${process.env.HEROKU_APP_NAME}.herokuapp.com`
+    : `localhost:${process.env.PORT}`,
   basePath: '/api',
   schemes: [['production', 'test'].includes(process.env.NODE_ENV) ? 'https' : 'http'],
   tags: [

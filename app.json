@@ -22,6 +22,12 @@
     },
     "JWT_SECRET": {
       "required": true
+    },
+    "HEROKU_APP_NAME": {
+      "required": false
+    },
+    "HEROKU_PARENT_APP_NAME": {
+      "required": false
     }
   },
   "formation": {
@@ -31,7 +37,20 @@
   },
   "name": "pipeline-heroku",
   "scripts": {
-    "test": "mocha __tests__/**/*.js"
+    "test": "mocha --recursive --exit"
   },
-  "stack": "heroku-18"
+  "stack": "heroku-18",
+  "environments": {
+    "test": {
+      "scripts": {
+        "test": "mocha --recursive --exit"
+      },
+      "formation": {
+        "test": {
+          "quantity": 1,
+          "size": "standard-1x"
+        }
+      }
+    }
+  }
 }
