@@ -1,3 +1,4 @@
+const os = require('os');
 const users = require('../features/users/swagger');
 
 // This will be used to generate the swagger.yaml at startup
@@ -7,7 +8,9 @@ module.exports = {
     version: '0.0.3',
     title: 'STRV Addressbook Api'
   },
-  host: process.env.NODE_ENV === 'production' ? 'xxxx' : `localhost:${process.env.PORT}`,
+  host: ['production', 'staging', 'testing'].includes(process.env.ENV)
+    ? os.hostname()
+    : `localhost:${process.env.PORT}`,
   basePath: '/api',
   schemes: [['production', 'test'].includes(process.env.NODE_ENV) ? 'https' : 'http'],
   tags: [
