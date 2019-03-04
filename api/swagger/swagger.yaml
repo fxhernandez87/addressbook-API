@@ -1,8 +1,8 @@
 ---
   swagger: "2.0"
   info: 
-    version: "0.0.2"
-    title: "STRB addressbook Api"
+    version: "0.0.3"
+    title: "STRV Addressbook Api"
   host: "localhost:3010"
   basePath: "/api"
   schemes: 
