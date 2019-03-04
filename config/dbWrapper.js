@@ -2,11 +2,9 @@ const glob = require('glob');
 const path = require('path');
 
 // grab all mongo models name to require them
-glob
-  .sync('./api/features/**/models/**/*.js')
-  .forEach(file => {
-    require(path.resolve(file));
-  });
+glob.sync('./api/features/**/models/**/*.js').forEach(file => {
+  require(path.resolve(file));
+});
 
 module.exports = db => {
   db.on('error', err => {

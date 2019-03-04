@@ -7,7 +7,6 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const fireBase = require('firebase');
 mongoose.Promise = global.Promise;
-mongoose.set('debug', true);
 const ObjectId = mongoose.Types.ObjectId;
 ObjectId.prototype.valueOf = function() {
   return this.toString();
@@ -62,11 +61,14 @@ const init = async () => {
       useNewUrlParser: true,
       useCreateIndex: true
     });
-    fireBase.initializeApp({
-      apiKey: process.env.FIREBASE_APIKEY,
-      authDomain: 'strv-addressbook-hernandez-fra.firebaseapp.com',
-      databaseURL: 'https://strv-addressbook-hernandez-fra.firebaseio.com'
-    });
+    if (!fireBase.apps.length) {
+      fireBase.initializeApp({
+        apiKey: process.env.FIREBASE_APIKEY,
+        projectId: 'strv-addressbook-hernandez-fra',
+        authDomain: 'strv-addressbook-hernandez-fra.firebaseapp.com',
+        databaseURL: 'https://strv-addressbook-hernandez-fra.firebaseio.com'
+      });
+    }
     app.listen(process.env.PORT || 3000, () => {
       // eslint-disable-next-line no-console
       console.log(`App listening on port ${process.env.PORT || 3000}`);

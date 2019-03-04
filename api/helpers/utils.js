@@ -42,7 +42,14 @@ const error = (req, res, next) => {
     if (!err.isBoom) {
       err = Boom.badRequest(err);
     }
-    res.status(err.output.statusCode).json(err.output.payload);
+    const payload =
+      err.output.statusCode === 500
+        ? {
+            ...err.output.payload,
+            message: err.message
+          }
+        : err.output.payload;
+    res.status(err.output.statusCode).json(payload);
   };
   next();
 };

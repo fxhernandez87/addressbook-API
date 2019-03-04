@@ -49,6 +49,7 @@ const registerUser = async (req, res) => {
     );
     // set the header in response
     res.header('Authorization', `Bearer ${token}`);
+    res.status(201);
     return mapResponse('newUser', {newUser});
   } catch (err) {
     // Mongoose model errors
@@ -56,7 +57,7 @@ const registerUser = async (req, res) => {
       throw new Error(err);
     } else {
       // something went wrong when hashing the password
-      throw new Error('Unexpected error hashing password');
+      throw boom.internal('Unexpected error hashing password or saving on db');
     }
   }
 };
