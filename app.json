@@ -31,7 +31,7 @@
   },
   "name": "pipeline-heroku",
   "scripts": {
-    "test": "npm test"
+    "test": "mocha __tests__/**/*.js"
   },
   "stack": "heroku-18"
 }
