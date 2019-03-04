@@ -93,5 +93,22 @@ describe('contact controller - add new contact', () => {
       expect(body.error).to.equal('Forbidden');
       expect(body.message).to.equal('Unauthorized Access');
     });
+    it('should throw forbidden access not bearer token and return 403', async () => {
+      const token = await jwt.sign({payload: {_id: 'testid', email: 'test@email.com'}}, process.env.JWT_SECRET);
+      const {body} = await request(server)
+        .post('/api/users/contacts')
+        .send({
+          email: faker.internet.email(),
+          name: faker.name.firstName(),
+          surName: faker.name.lastName()
+        })
+        .set('Accept', 'application/json')
+        .set('authorization', `JWT ${token}`)
+        .expect('Content-Type', /json/)
+        .expect(403);
+      expect(body.statusCode).to.equal(403);
+      expect(body.error).to.equal('Forbidden');
+      expect(body.message).to.equal('Unauthorized Access');
+    });
   });
 });

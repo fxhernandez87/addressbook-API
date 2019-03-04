@@ -15,11 +15,6 @@ const userSchema = new Schema(
     name: {type: String}
   },
   {
-    toObject: {
-      transform: (doc, ret) => {
-        delete ret.__v;
-      }
-    },
     toJSON: {
       transform: function(doc, ret) {
         delete ret.__v;
