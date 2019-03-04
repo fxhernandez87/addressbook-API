@@ -31,13 +31,19 @@
   },
   "name": "pipeline-heroku",
   "scripts": {
-    "test": "mocha test/**/*.js"
+    "test": "mocha --recursive"
   },
   "stack": "heroku-18",
   "environments": {
     "test": {
       "scripts": {
-        "test": "mocha test/**/*.js"
+        "test": "mocha --recursive"
+      },
+      "formation": {
+        "test": {
+          "quantity": 1,
+          "size": "free"
+        }
       }
     }
   }
