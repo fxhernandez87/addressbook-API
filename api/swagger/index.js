@@ -4,7 +4,7 @@ const users = require('../features/users/swagger');
 module.exports = {
   swagger: '2.0',
   info: {
-    version: '0.0.3',
+    version: '0.0.4',
     title: 'STRV Addressbook Api'
   },
   host: ['production', 'staging', 'testing'].includes(process.env.ENV)
