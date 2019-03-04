@@ -5,7 +5,7 @@ module.exports = {
   swagger: '2.0',
   info: {
     version: '0.0.3',
-    title: 'STRB addressbook Api'
+    title: 'STRV Addressbook Api'
   },
   host: process.env.NODE_ENV === 'production' ? 'xxxx' : `localhost:${process.env.PORT}`,
   basePath: '/api',
