@@ -43,6 +43,6 @@
   },
   "scripts": {
     "start": "node app.js",
-    "test": "nyc --reporter=html mocha __tests__/**/*.js --exit"
+    "test": "mocha __tests__/**/*.js"
   }
 }
