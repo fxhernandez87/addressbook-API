@@ -43,6 +43,7 @@
   },
   "scripts": {
     "start": "node app.js",
-    "test": "mocha --recursive --exit"
+    "test": "mocha --recursive --exit",
+    "coverage": "nyc --reporter=html mocha --recursive --exit"
   }
 }
