@@ -1,6 +1,6 @@
 {
   "name": "strv-addressbook-hernandez-francisco",
-  "version": "0.0.4",
+  "version": "1.0.0",
   "private": true,
   "description": "STRV Addressbook assignment",
   "keywords": [
@@ -43,6 +43,7 @@
   },
   "scripts": {
     "start": "node app.js",
-    "test": "mocha --recursive --exit"
+    "test": "mocha --recursive --exit",
+    "coverage": "nyc --reporter=html mocha --recursive --exit"
   }
 }

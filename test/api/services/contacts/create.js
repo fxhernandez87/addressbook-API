@@ -17,7 +17,7 @@ describe('service contact create', () => {
   });
   after('cleaning test data', cleanData(testSeed));
   it('should create a Contact', async function() {
-    this.timeout(3000);
+    this.timeout(0);
     const user = faker.helpers.randomize(testSeed.users);
     const contactService = new ContactService(user._id.toString());
     const newContact = {

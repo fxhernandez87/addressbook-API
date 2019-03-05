@@ -1,18 +1,21 @@
 ---
   swagger: "2.0"
   info:
-    version: "0.0.4"
+    version: "1.0.0"
     title: "STRV Addressbook Api"
-  host: "PANCHO"
+    description: "This is a sample address book API.  Here you will be able to register yourself or login via email and password, and receive a JWT token which you can use in the secured endpoints like [Contacts](#/Contacts)."
+    contact:
+      email: "fxhernandez87@gmail.com"
+  host: "localhost:3010"
   basePath: "/api"
   schemes:
     - "http"
   tags:
     -
-      name: "users"
+      name: "Users"
       description: "Users operations"
     -
-      name: "contacts"
+      name: "Contacts"
       description: "Contacts operations"
   consumes:
     - "application/json"
@@ -22,13 +25,13 @@
     /users/signup:
       x-swagger-router-controller: "features/users/controllers/users"
       post:
-        description: "Register a user to manage cantacts"
+        description: ">Using **email** and **password** authentication, it will validate if the email is already taken, if the password isn't too short. \nFinally will respond with a token in the **Authorization** response headers"
         summary: "Register a user to manage cantacts"
         consumes:
           - "application/json"
         operationId: "registerUser"
         tags:
-          - "users"
+          - "Users"
         parameters:
           -
             name: "user"
@@ -47,8 +50,8 @@
                 name:
                   type: "string"
         responses:
-          200:
-            description: "Success"
+          201:
+            description: "Created"
             schema:
               required:
                 - "data"
@@ -58,14 +61,15 @@
           400:
             description: "Bad request"
             schema:
-              $ref: "#/definitions/ErrorResponse"
+              $ref: "#/definitions/Error"
     /users/login:
       x-swagger-router-controller: "features/users/controllers/users"
       post:
         operationId: "loginUser"
         tags:
-          - "users"
-        description: "Get the token of the logged in user"
+          - "Users"
+        description: ">Using **email** and **password** authentication, it will validate if the email exists, if the password match the one in the database.\nFinally will respond with a token in the **Authorization** response headers"
+        summary: "Get the token of the logged in user"
         parameters:
           -
             name: "user"
@@ -81,8 +85,6 @@
                   type: "string"
                 password:
                   type: "string"
-                name:
-                  type: "string"
         responses:
           200:
             description: "Success"
@@ -95,28 +97,28 @@
           400:
             description: "Bad request"
             schema:
-              $ref: "#/definitions/ErrorResponse"
+              $ref: "#/definitions/Error"
           401:
             description: "Unauthorized"
             schema:
-              $ref: "#/definitions/ErrorResponse"
+              $ref: "#/definitions/Error"
           404:
             description: "Item not found"
             schema:
-              $ref: "#/definitions/ErrorResponse"
-    /users/contacts:
+              $ref: "#/definitions/Error"
+    /contacts:
       x-swagger-router-controller: "features/users/controllers/contacts"
       post:
         security:
           -
             jwtAuth: []
-        description: "add a new contact"
+        description: ">Adding a new contact requires you to be logged in, set an Authorization header with a valid token (not expired).\nNew contacts will be added on a firebase database (firestore) in a collection \"**contacts**\" with the fields passed on the body and additionally the userId that is creating that contact. This way  on the client side can retrieve all the contacts using the userId key."
         summary: "add a new contact for the logged in user"
         consumes:
           - "application/json"
         operationId: "addContact"
         tags:
-          - "contacts"
+          - "Contacts"
         parameters:
           -
             name: "contact"
@@ -147,33 +149,37 @@
           400:
             description: "Bad request"
             schema:
-              $ref: "#/definitions/ErrorResponse"
+              $ref: "#/definitions/Error"
           401:
             description: "Unauthorized"
             schema:
-              $ref: "#/definitions/ErrorResponse"
+              $ref: "#/definitions/Error"
           403:
             description: "Forbidden"
             schema:
-              $ref: "#/definitions/ErrorResponse"
+              $ref: "#/definitions/Error"
     /swagger:
       x-swagger-pipe: "swagger_raw"
   definitions:
     Error:
       properties:
+        statusCode:
+          type: "number"
         message:
           type: "string"
-    ErrorResponse:
-      properties:
         error:
-          $ref: "#/definitions/Error"
+          type: "string"
+        code:
+          type: "string"
+      required:
+        - "statusCode"
+        - "message"
+        - "error"
     User:
       properties:
         _id:
           type: "string"
         email:
-          type: "string"
-        password:
           type: "string"
         name:
           type: "string"
@@ -192,3 +198,4 @@
       type: "apiKey"
       name: "Authorization"
       in: "header"
+      description: "Bearer token authentication"

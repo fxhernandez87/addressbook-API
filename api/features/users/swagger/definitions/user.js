@@ -7,7 +7,6 @@ const User = {
   properties: {
     _id,
     email,
-    password,
     name
   }
 };
@@ -19,6 +18,14 @@ const UserPost = {
     name
   }
 };
+
+const UserLogin = {
+  required: ['email', 'password'],
+  properties: {
+    email,
+    password
+  }
+};
 const UserResponse = {
   required: ['data'],
   properties: {
@@ -28,10 +35,11 @@ const UserResponse = {
 
 module.exports = {
   shown: {
-    User,
+    User
   },
   hidden: {
     UserPost,
-    UserResponse,
+    UserLogin,
+    UserResponse
   }
 };

@@ -62,15 +62,15 @@ describe('user controller - Login', () => {
       expect(decoded.exp).to.be.a('number');
       expect(decoded.exp).to.equal(decoded.iat + 3600);
     });
-    it('should catch error Email not found and return 401', async () => {
+    it('should catch error Email not found and return 404', async () => {
       const {body, headers} = await request(server)
         .post('/api/users/login')
         .send({email: 'not-found@test.com', password: faker.internet.password()})
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
-        .expect(401);
-      expect(body.statusCode).to.equal(401);
-      expect(body.error).to.equal('Unauthorized');
+        .expect(404);
+      expect(body.statusCode).to.equal(404);
+      expect(body.error).to.equal('Not Found');
       expect(body.message).to.equal('Email not found, please sign up');
       expect(headers).to.not.have.a.property('authorization');
     });
