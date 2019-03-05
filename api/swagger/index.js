@@ -7,7 +7,7 @@ const schemes = [['production', 'staging', 'testing'].includes(process.env.ENV) 
 module.exports = {
   swagger: '2.0',
   info: {
-    version: '0.0.4',
+    version: '1.0.0',
     title: 'STRV Addressbook Api',
     description:
       'This is a sample address book API.  Here you will be able to register yourself or login via email and password' +
