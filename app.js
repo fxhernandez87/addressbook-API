@@ -1,5 +1,5 @@
 /*
-* strv-addressbook-api v0.0.4
+* strv-addressbook-api v1.0.0
 * By Francisco Hernández
 * */
 require('dotenv').config();
