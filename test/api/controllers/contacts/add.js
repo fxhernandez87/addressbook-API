@@ -18,7 +18,7 @@ describe('contact controller - add new contact', () => {
   after('Cleaning data of tests', cleanData(testSeed));
   describe('/users/contacts', () => {
     it('should accept json data and add a contact', async function() {
-      this.timeout(3000);
+      this.timeout(0);
       const token = await jwt.sign({payload: {_id: 'testid', email: 'test@email.com'}}, process.env.JWT_SECRET);
       const contact = {
         email: faker.internet.email(),
