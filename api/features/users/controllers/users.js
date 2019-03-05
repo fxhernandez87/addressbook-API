@@ -69,7 +69,7 @@ const loginUser = async (req, res) => {
 
   // if userData is null, it means no user was found with the request email
   if (!userData) {
-    throw boom.unauthorized('Email not found, please sign up');
+    throw boom.notFound('Email not found, please sign up');
   }
   // compare the passwords
   const areEquals = await bcrypt.compare(password, userData.password);

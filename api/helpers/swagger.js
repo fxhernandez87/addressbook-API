@@ -1,18 +1,18 @@
 const responseDescriptions = {
   '200': 'Success',
+  '201': 'Created',
   '400': 'Bad request',
   '401': 'Unauthorized',
   '403': 'Forbidden',
-  '404': 'Item not found',
-  '422': 'Invalid Schema'
+  '404': 'Item not found'
 };
 const responseDefaultRefs = {
   '200': '#/definitions/SuccessResponse',
-  '400': '#/definitions/ErrorResponse',
-  '401': '#/definitions/ErrorResponse',
-  '403': '#/definitions/ErrorResponse',
-  '404': '#/definitions/ErrorResponse',
-  '422': '#/definitions/ErrorResponse'
+  '201': '#/definitions/SuccessResponse',
+  '400': '#/definitions/Error',
+  '401': '#/definitions/Error',
+  '403': '#/definitions/Error',
+  '404': '#/definitions/Error'
 };
 const responseMaker = (_code, ref, obj) => {
   const code = _code.toString();
@@ -30,5 +30,5 @@ const jwtSecurity = [{jwtAuth: []}];
 
 module.exports = {
   responseMaker,
-  jwtSecurity,
+  jwtSecurity
 };
