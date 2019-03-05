@@ -16,7 +16,7 @@ describe('contact controller - add new contact', () => {
     await getData(testSeed)();
   });
   after('Cleaning data of tests', cleanData(testSeed));
-  describe('/users/contacts', () => {
+  describe('/contacts', () => {
     it('should accept json data and add a contact', async function() {
       this.timeout(0);
       const token = await jwt.sign({payload: {_id: 'testid', email: 'test@email.com'}}, process.env.JWT_SECRET);
@@ -26,7 +26,7 @@ describe('contact controller - add new contact', () => {
         surName: faker.name.lastName()
       };
       const {body} = await request(server)
-        .post('/api/users/contacts')
+        .post('/api/contacts')
         .send(contact)
         .set('Accept', 'application/json')
         .set('authorization', `Bearer ${token}`)
@@ -64,7 +64,7 @@ describe('contact controller - add new contact', () => {
     it('should throw forbidden access cause of token was modified and return 403', async () => {
       const token = await jwt.sign({payload: {_id: 'testid', email: 'test@email.com'}}, 'some-secret');
       const {body} = await request(server)
-        .post('/api/users/contacts')
+        .post('/api/contacts')
         .send({
           email: faker.internet.email(),
           name: faker.name.firstName(),
@@ -80,7 +80,7 @@ describe('contact controller - add new contact', () => {
     });
     it('should throw forbidden access and return 403', async () => {
       const {body} = await request(server)
-        .post('/api/users/contacts')
+        .post('/api/contacts')
         .send({
           email: faker.internet.email(),
           name: faker.name.firstName(),
@@ -96,7 +96,7 @@ describe('contact controller - add new contact', () => {
     it('should throw forbidden access not bearer token and return 403', async () => {
       const token = await jwt.sign({payload: {_id: 'testid', email: 'test@email.com'}}, process.env.JWT_SECRET);
       const {body} = await request(server)
-        .post('/api/users/contacts')
+        .post('/api/contacts')
         .send({
           email: faker.internet.email(),
           name: faker.name.firstName(),

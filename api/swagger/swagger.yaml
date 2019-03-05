@@ -106,7 +106,7 @@
             description: "Item not found"
             schema: 
               $ref: "#/definitions/Error"
-    /users/contacts: 
+    /contacts: 
       x-swagger-router-controller: "features/users/controllers/contacts"
       post: 
         security: 

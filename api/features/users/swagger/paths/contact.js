@@ -3,7 +3,7 @@ const swaggerController = {'x-swagger-router-controller': 'features/users/contro
 const {hidden: {ContactPost, ContactResponse}} = require('../definitions/contact');
 
 module.exports = {
-  '/users/contacts': {
+  '/contacts': {
     ...swaggerController,
     post: {
       security,
