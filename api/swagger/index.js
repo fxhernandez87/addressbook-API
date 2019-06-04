@@ -1,4 +1,5 @@
 const users = require('../features/users/swagger');
+const contacts = require('../features/contacts/swagger');
 const hostname = ['production', 'staging', 'testing'].includes(process.env.ENV)
   ? `${process.env.HEROKU_APP_NAME}.herokuapp.com`
   : `localhost:${process.env.PORT}`;
@@ -31,6 +32,8 @@ module.exports = {
   produces: ['application/json'],
   paths: {
     ...users.paths,
+    ...contacts.paths,
+
     '/swagger': {
       'x-swagger-pipe': 'swagger_raw'
     }
@@ -45,7 +48,8 @@ module.exports = {
       },
       required: ['statusCode', 'message', 'error']
     },
-    ...users.definitions
+    ...users.definitions,
+    ...contacts.definitions
   },
   securityDefinitions: {
     jwtAuth: {
