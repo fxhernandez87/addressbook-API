@@ -1,9 +1,7 @@
-const bcrypt = require('bcrypt');
 const boom = require('boom');
-const jwt = require('jsonwebtoken');
 const {responder, mapResponse} = require('../../../helpers/utils');
 const userService = require('../services/user');
-const saltFactor = 10;
+const hashingService = require('../../../services/hashing');
 
 /**
  * Register a User, every thrown exceptions not wrapped on try/catch will be caught on the responder function
@@ -32,21 +30,12 @@ const registerUser = async (req, res) => {
 
   try {
     // lets hash the password
-    const hashedPassword = await bcrypt.hash(password, saltFactor);
+    const hashedPassword = await hashingService.hashWord(password);
 
     const newUser = await userService.create({email, name, password: hashedPassword});
-    // remove the hashed password from the response object
-    delete newUser.password;
 
     // create the token with the user data, and set expiration date in an hour
-    const token = await jwt.sign(
-      {
-        payload: newUser,
-        uid: newUser._id
-      },
-      process.env.JWT_SECRET,
-      {expiresIn: '1h'}
-    );
+    const token = await hashingService.createJWT(newUser);
     // set the header in response
     res.header('Authorization', `Bearer ${token}`);
     res.status(201);
@@ -72,22 +61,15 @@ const loginUser = async (req, res) => {
     throw boom.notFound('Email not found, please sign up');
   }
   // compare the passwords
-  const areEquals = await bcrypt.compare(password, userData.password);
+  const areEquals = await hashingService.isValidHash(password, userData.password);
 
   if (!areEquals) {
     throw boom.unauthorized('Wrong password');
   }
 
-  delete userData.password;
   // create the token with the user data, and set expiration date in an hour
-  const token = await jwt.sign(
-    {
-      payload: userData,
-      uid: userData._id
-    },
-    process.env.JWT_SECRET,
-    {expiresIn: '1h'}
-  );
+  const token = await hashingService.createJWT(userData);
+
   // set the header in response
   res.header('Authorization', `Bearer ${token}`);
   return mapResponse('userData', {userData});

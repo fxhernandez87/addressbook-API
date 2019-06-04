@@ -7,8 +7,7 @@ class UserService {
   }
 
   static async getByEmail(email) {
-    const user = await User.findOne({email});
-    return user ? user.toJSON() : null;
+    return User.findOne({email});
   }
 }
 module.exports = UserService;
