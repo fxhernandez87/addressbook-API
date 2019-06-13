@@ -2,8 +2,8 @@
 [heroku-url]: https://dashboard.heroku.com/apps/strv-addressbook-hernandez-fra
 [documentation]: https://strv-addressbook-hernandez-fra.herokuapp.com/api/docs
 
-# Backend Test Project: 
-- Name: strv-addressbook-hernandez-francisco
+# Backend Project: 
+- Name: addressbook
 - Documentation: [API docs][documentation] 
 
 
